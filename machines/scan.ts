@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import SmartshareReactNative from '@idpass/smartshare-react-native';
 import { ConnectionParams } from '@idpass/smartshare-react-native/lib/typescript/IdpassSmartshare';
-import { default as IdpassSmartshare } from '../lib/smartshare';
+import IdpassSmartshare from '../lib/smartshare';
 const { GoogleNearbyMessages } = SmartshareReactNative;
 
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
@@ -496,7 +496,9 @@ export const scanMachine =
         disconnect: (context) => {
           try {
             if (context.sharingProtocol === 'OFFLINE') {
-              IdpassSmartshare.destroyConnection();
+              IdpassSmartshare.destroyConnection(() => {
+                console.log('Disconnected');
+              });
             } else {
               GoogleNearbyMessages.disconnect();
             }
