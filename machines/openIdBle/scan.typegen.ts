@@ -18,6 +18,9 @@ export interface Typegen0 {
     'xstate.after(CONNECTION_TIMEOUT)#scan.exchangingDeviceInfo': {
       type: 'xstate.after(CONNECTION_TIMEOUT)#scan.exchangingDeviceInfo';
     };
+    'xstate.after(DESTROY_TIMEOUT)#scan.clearingConnection': {
+      type: 'xstate.after(DESTROY_TIMEOUT)#scan.clearingConnection';
+    };
     'xstate.after(SHARING_TIMEOUT)#scan.reviewing.sendingVc.inProgress': {
       type: 'xstate.after(SHARING_TIMEOUT)#scan.reviewing.sendingVc.inProgress';
     };
@@ -38,7 +41,7 @@ export interface Typegen0 {
     sendVc: 'done.invoke.scan.reviewing.sendingVc:invocation[0]';
   };
   'missingImplementations': {
-    actions: 'disconnect';
+    actions: never;
     delays: never;
     guards: never;
     services: never;
@@ -62,8 +65,7 @@ export interface Typegen0 {
       | 'CONNECTION_DESTROYED'
       | 'DISCONNECT'
       | 'DISMISS'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
-    disconnect: 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
+      | 'xstate.after(DESTROY_TIMEOUT)#scan.clearingConnection';
     logFailedVerification: 'FACE_INVALID';
     logShared: 'VC_ACCEPTED';
     openBluetoothSettings: 'GOTO_SETTINGS';
@@ -72,13 +74,13 @@ export interface Typegen0 {
       | 'CONNECTION_DESTROYED'
       | 'DISCONNECT'
       | 'DISMISS'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
+      | 'xstate.after(DESTROY_TIMEOUT)#scan.clearingConnection';
     removeLoggers:
       | 'CONNECTION_DESTROYED'
       | 'DISCONNECT'
       | 'DISMISS'
       | 'SCREEN_BLUR'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling'
+      | 'xstate.after(DESTROY_TIMEOUT)#scan.clearingConnection'
       | 'xstate.init';
     requestSenderInfo: 'SCAN';
     requestToEnableLocation: 'LOCATION_DISABLED' | 'LOCATION_REQUEST';
@@ -99,6 +101,10 @@ export interface Typegen0 {
       | 'CONNECTED'
       | 'RECEIVE_DEVICE_INFO'
       | 'xstate.after(CONNECTION_TIMEOUT)#scan.exchangingDeviceInfo';
+    DESTROY_TIMEOUT:
+      | 'DISMISS'
+      | 'LOCATION_ENABLED'
+      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
     SHARING_TIMEOUT:
       | 'ACCEPT_REQUEST'
       | 'FACE_VALID'
@@ -113,7 +119,10 @@ export interface Typegen0 {
     checkLocationPermission: 'APP_ACTIVE' | 'LOCATION_ENABLED';
     checkLocationStatus: '';
     createVp: never;
-    disconnect: 'DISMISS' | 'LOCATION_ENABLED';
+    disconnect:
+      | 'DISMISS'
+      | 'LOCATION_ENABLED'
+      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
     discoverDevice: 'RECEIVE_DEVICE_INFO';
     exchangeDeviceInfo:
       | 'CONNECTED'

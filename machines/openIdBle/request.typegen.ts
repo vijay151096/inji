@@ -15,6 +15,9 @@ export interface Typegen0 {
     'xstate.after(CONNECTION_TIMEOUT)#request.exchangingDeviceInfo.inProgress': {
       type: 'xstate.after(CONNECTION_TIMEOUT)#request.exchangingDeviceInfo.inProgress';
     };
+    'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection': {
+      type: 'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection';
+    };
     'xstate.after(SHARING_TIMEOUT)#request.waitingForVc.inProgress': {
       type: 'xstate.after(SHARING_TIMEOUT)#request.waitingForVc.inProgress';
     };
@@ -53,16 +56,23 @@ export interface Typegen0 {
       | 'SWITCH_PROTOCOL'
       | 'xstate.stop';
     disconnect: 'xstate.after(CANCEL_TIMEOUT)#request.cancelling';
-    generateConnectionParams: 'CONNECTION_DESTROYED' | 'DISMISS';
+    generateConnectionParams:
+      | 'CONNECTION_DESTROYED'
+      | 'DISMISS'
+      | 'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection';
     logReceived: 'STORE_RESPONSE';
     mergeIncomingVc: 'STORE_RESPONSE';
     openSettings: 'GOTO_SETTINGS';
     prependReceivedVc: 'VC_RESPONSE';
-    registerLoggers: 'CONNECTION_DESTROYED' | 'DISMISS';
+    registerLoggers:
+      | 'CONNECTION_DESTROYED'
+      | 'DISMISS'
+      | 'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection';
     removeLoggers:
       | 'CONNECTION_DESTROYED'
       | 'DISMISS'
       | 'SCREEN_BLUR'
+      | 'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection'
       | 'xstate.init';
     requestExistingVc: 'VC_RESPONSE';
     requestReceivedVcs:
@@ -84,13 +94,17 @@ export interface Typegen0 {
   'eventsCausingDelays': {
     CANCEL_TIMEOUT: 'CANCEL';
     CONNECTION_TIMEOUT: 'RECEIVE_DEVICE_INFO';
+    DESTROY_TIMEOUT: '' | 'DISMISS';
     SHARING_TIMEOUT: 'EXCHANGE_DONE';
   };
   'eventsCausingGuards': {
     hasExistingVc: 'VC_RESPONSE';
   };
   'eventsCausingServices': {
-    advertiseDevice: 'CONNECTION_DESTROYED' | 'DISMISS';
+    advertiseDevice:
+      | 'CONNECTION_DESTROYED'
+      | 'DISMISS'
+      | 'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection';
     checkBluetoothService:
       | 'SCREEN_FOCUS'
       | 'SWITCH_PROTOCOL'
