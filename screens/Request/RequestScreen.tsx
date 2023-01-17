@@ -3,7 +3,7 @@ import { TFunction, useTranslation } from 'react-i18next';
 import { Switch } from 'react-native-elements';
 import { Platform } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-
+import { USE_BLE_SHARE } from 'react-native-dotenv';
 import { Centered, Button, Row, Column, Text } from '../../components/ui';
 import { Theme } from '../../components/ui/styleUtils';
 import { useRequestScreen } from './RequestScreenController';
@@ -62,16 +62,17 @@ const SharingQR: React.FC<RequestScreenProps> = ({ t, controller }) => {
           />
         ) : null}
       </Centered>
-
-      <Row align="center" crossAlign="center" margin={[0, 0, 48, 0]}>
-        <Text margin={[0, 16, 0, 0]}>{t('offline')}</Text>
-        <Switch
-          value={controller.sharingProtocol === 'ONLINE'}
-          onValueChange={controller.SWITCH_PROTOCOL}
-          disabled={Platform.OS === 'ios'}
-        />
-        <Text margin={[0, 0, 0, 16]}>{t('online')}</Text>
-      </Row>
+      {USE_BLE_SHARE !== 'true' && (
+        <Row align="center" crossAlign="center" margin={[0, 0, 48, 0]}>
+          <Text margin={[0, 16, 0, 0]}>{t('offline')}</Text>
+          <Switch
+            value={controller.sharingProtocol === 'ONLINE'}
+            onValueChange={controller.SWITCH_PROTOCOL}
+            disabled={Platform.OS === 'ios'}
+          />
+          <Text margin={[0, 0, 0, 16]}>{t('online')}</Text>
+        </Row>
+      )}
     </React.Fragment>
   );
 };
