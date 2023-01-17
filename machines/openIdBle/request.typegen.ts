@@ -9,9 +9,6 @@ export interface Typegen0 {
       data: unknown;
       __tip: 'See the XState TS docs to learn how to strongly type this.';
     };
-    'xstate.after(CANCEL_TIMEOUT)#request.cancelling': {
-      type: 'xstate.after(CANCEL_TIMEOUT)#request.cancelling';
-    };
     'xstate.after(CONNECTION_TIMEOUT)#request.exchangingDeviceInfo.inProgress': {
       type: 'xstate.after(CONNECTION_TIMEOUT)#request.exchangingDeviceInfo.inProgress';
     };
@@ -39,7 +36,7 @@ export interface Typegen0 {
     verifyVp: 'done.invoke.request.reviewing.verifyingVp:invocation[0]';
   };
   'missingImplementations': {
-    actions: 'disconnect';
+    actions: never;
     delays: never;
     guards: never;
     services: never;
@@ -55,7 +52,6 @@ export interface Typegen0 {
       | 'SCREEN_FOCUS'
       | 'SWITCH_PROTOCOL'
       | 'xstate.stop';
-    disconnect: 'xstate.after(CANCEL_TIMEOUT)#request.cancelling';
     generateConnectionParams:
       | 'CONNECTION_DESTROYED'
       | 'DISMISS'
@@ -92,7 +88,6 @@ export interface Typegen0 {
     switchProtocol: 'SWITCH_PROTOCOL';
   };
   'eventsCausingDelays': {
-    CANCEL_TIMEOUT: 'CANCEL';
     CONNECTION_TIMEOUT: 'RECEIVE_DEVICE_INFO';
     DESTROY_TIMEOUT: '' | 'DISMISS';
     SHARING_TIMEOUT: 'EXCHANGE_DONE';
@@ -105,10 +100,7 @@ export interface Typegen0 {
       | 'CONNECTION_DESTROYED'
       | 'DISMISS'
       | 'xstate.after(DESTROY_TIMEOUT)#request.clearingConnection';
-    checkBluetoothService:
-      | 'SCREEN_FOCUS'
-      | 'SWITCH_PROTOCOL'
-      | 'xstate.after(CANCEL_TIMEOUT)#request.cancelling';
+    checkBluetoothService: 'SCREEN_FOCUS' | 'SWITCH_PROTOCOL';
     disconnect: '' | 'DISMISS';
     exchangeDeviceInfo: 'RECEIVE_DEVICE_INFO';
     monitorConnection: 'xstate.init';

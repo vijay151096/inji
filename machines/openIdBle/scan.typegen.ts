@@ -9,9 +9,6 @@ export interface Typegen0 {
       data: unknown;
       __tip: 'See the XState TS docs to learn how to strongly type this.';
     };
-    'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling': {
-      type: 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
-    };
     'xstate.after(CONNECTION_TIMEOUT)#scan.connecting.inProgress': {
       type: 'xstate.after(CONNECTION_TIMEOUT)#scan.connecting.inProgress';
     };
@@ -48,18 +45,18 @@ export interface Typegen0 {
   };
   'eventsCausingActions': {
     clearCreatedVp:
+      | ''
       | 'DISCONNECT'
       | 'DISMISS'
       | 'SCREEN_BLUR'
       | 'SCREEN_FOCUS'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling'
       | 'xstate.stop';
     clearReason:
+      | ''
       | 'DISCONNECT'
       | 'DISMISS'
       | 'SCREEN_BLUR'
       | 'SCREEN_FOCUS'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling'
       | 'xstate.stop';
     clearScannedQrParams:
       | 'CONNECTION_DESTROYED'
@@ -96,15 +93,11 @@ export interface Typegen0 {
     toggleShouldVerifyPresence: 'TOGGLE_USER_CONSENT';
   };
   'eventsCausingDelays': {
-    CANCEL_TIMEOUT: 'CANCEL';
     CONNECTION_TIMEOUT:
       | 'CONNECTED'
       | 'RECEIVE_DEVICE_INFO'
       | 'xstate.after(CONNECTION_TIMEOUT)#scan.exchangingDeviceInfo';
-    DESTROY_TIMEOUT:
-      | 'DISMISS'
-      | 'LOCATION_ENABLED'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
+    DESTROY_TIMEOUT: '' | 'DISMISS' | 'LOCATION_ENABLED';
     SHARING_TIMEOUT:
       | 'ACCEPT_REQUEST'
       | 'FACE_VALID'
@@ -119,10 +112,7 @@ export interface Typegen0 {
     checkLocationPermission: 'APP_ACTIVE' | 'LOCATION_ENABLED';
     checkLocationStatus: '';
     createVp: never;
-    disconnect:
-      | 'DISMISS'
-      | 'LOCATION_ENABLED'
-      | 'xstate.after(CANCEL_TIMEOUT)#scan.reviewing.cancelling';
+    disconnect: '' | 'DISMISS' | 'LOCATION_ENABLED';
     discoverDevice: 'RECEIVE_DEVICE_INFO';
     exchangeDeviceInfo:
       | 'CONNECTED'
