@@ -7,6 +7,7 @@ import { USE_BLE_SHARE } from 'react-native-dotenv';
 import { Centered, Button, Row, Column, Text } from '../../components/ui';
 import { Theme } from '../../components/ui/styleUtils';
 import { useRequestScreen } from './RequestScreenController';
+import { isBLEEnabled } from '../../lib/smartshare';
 
 export const RequestScreen: React.FC = () => {
   const { t } = useTranslation('RequestScreen');
@@ -62,7 +63,7 @@ const SharingQR: React.FC<RequestScreenProps> = ({ t, controller }) => {
           />
         ) : null}
       </Centered>
-      {USE_BLE_SHARE !== 'true' && (
+      {!isBLEEnabled && (
         <Row align="center" crossAlign="center" margin={[0, 0, 48, 0]}>
           <Text margin={[0, 16, 0, 0]}>{t('offline')}</Text>
           <Switch
