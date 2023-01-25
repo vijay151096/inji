@@ -13,6 +13,8 @@ export async function request(
   path: `/${string}`,
   body?: Record<string, unknown>
 ) {
+  console.log(`calling ${method} ` + HOST + path);
+  console.log(JSON.stringify(body));
   const response = await fetch(HOST + path, {
     method,
     headers: {
@@ -24,11 +26,15 @@ export async function request(
   const jsonResponse = await response.json();
 
   if (response.status >= 400) {
+    console.log('failed with ' + JSON.stringify(jsonResponse));
     throw new Error(jsonResponse.message || jsonResponse.error);
   }
 
   if (jsonResponse.errors && jsonResponse.errors.length) {
     const { errorCode, errorMessage } = jsonResponse.errors.shift();
+    console.log(
+      'failed with errorMessage: ' + errorMessage + ' error code : ' + errorCode
+    );
     throw new BackendResponseError(errorCode, errorMessage);
   }
 
