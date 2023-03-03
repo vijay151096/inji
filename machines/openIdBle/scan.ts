@@ -2,6 +2,7 @@
 import SmartshareReactNative from '@idpass/smartshare-react-native';
 import { ConnectionParams } from '@idpass/smartshare-react-native/lib/typescript/IdpassSmartshare';
 import OpenIdBle from 'react-native-openid4vp-ble';
+import { BluetoothStatus } from 'react-native-bluetooth-status';
 import BluetoothStateManager from 'react-native-bluetooth-state-manager';
 import {
   ActorRefFrom,
@@ -747,9 +748,10 @@ export const scanMachine =
       services: {
         checkBluetoothService: () => (callback) => {
           const subscription = BluetoothStateManager.onStateChange((state) => {
+            console.log('Bluetooth state is: ' + state);
             if (state === 'PoweredOn') {
               callback(model.events.BLUETOOTH_ENABLED());
-            } else {
+            } else if (state === 'PoweredOff') {
               callback(model.events.BLUETOOTH_DISABLED());
             }
           }, true);
@@ -759,7 +761,10 @@ export const scanMachine =
         requestBluetooth: () => (callback) => {
           BluetoothStateManager.requestToEnable()
             .then(() => callback(model.events.BLUETOOTH_ENABLED()))
-            .catch(() => callback(model.events.BLUETOOTH_DISABLED()));
+            .catch(() => {
+              callback(model.events.BLUETOOTH_DISABLED());
+              openDeviceBluetoothSettings();
+            });
         },
         checkLocationPermission: () => async (callback) => {
           try {
@@ -1105,6 +1110,17 @@ export function selectIsCancelling(state: State) {
 
 export function selectIsHandlingBleError(state: State) {
   return state.matches('handlingBleError');
+}
+
+async function openDeviceBluetoothSettings() {
+  const isBluetoothEnabled = await BluetoothStatus.state();
+  if (!isBluetoothEnabled) {
+    if (Platform.OS === 'android') {
+      BluetoothStateManager.openSettings().catch();
+    } else {
+      Linking.openURL('App-Prefs:Bluetooth');
+    }
+  }
 }
 
 async function sendVc(
